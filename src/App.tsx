@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import "./App.css";
 import CoinCard from "./components/coin-card/CoinCard";
+import LimitSelector from "./components/limit-selector/LimitSelector";
 
-const API_URL =
-  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface CoinData {
   id: string;
@@ -47,11 +47,14 @@ function App() {
   const [coins, setCoins] = useState<CoinData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [limit, setLimit] = useState<number>(10);
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const res = await fetch(API_URL);
+        const res = await fetch(
+          `${API_URL}&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`,
+        );
         if (!res.ok) throw new Error("Faild to fetch data");
         const data = await res.json();
 
@@ -64,15 +67,20 @@ function App() {
       }
     };
     fetchCoins();
-  }, []);
+  }, [limit]);
+
+  const onLimitChange = (value: number) => {
+    setLimit(Number(value));
+  };
   return (
     <>
       {loading && <p>Loading</p>}
       {error && <p>{error}</p>}
+      <LimitSelector limit={limit} onLimitChange={onLimitChange} />
       {!loading && !error && (
-        <main className=" grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4 ">
+        <main className="card-container">
           {coins.map((coin) => {
-            return <CoinCard {...coin} />;
+            return <CoinCard key={coin.id} {...coin} />;
           })}
         </main>
       )}

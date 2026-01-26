@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
 body {
-  @apply bg-[#0e1117] text-[#f0f0f0] font-[Tahoma] p-8;
+  @apply bg-primary text-[#f0f0f0] font-[Tahoma] p-8;
 }
 @layer components {
+  .bg-primary {
+    @apply bg-[#0e1117];
+  }
+  .bg-secondary {
+    @apply bg-[#161b22];
+  }
+  .card-container {
+    @apply grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4;
+  }
   .coin-card {
-    @apply bg-[#161b22] p-6 shadow-2xl shadow-[#0000004d] rounded-xl;
+    @apply secondary  p-6 shadow-2xl shadow-[#0000004d] rounded-xl hover:translate-y-1.5 transition-all ease-in-out duration-200;
   }
 }
