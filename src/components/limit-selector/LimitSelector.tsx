@@ -5,13 +5,13 @@ interface LimitSelectorPorps {
 
 function LimitSelector({ limit, onLimitChange }: LimitSelectorPorps) {
   return (
-    <div>
+    <div className="flex justify-end items-center gap-2 text-center">
       <label htmlFor="limit">Show: </label>
       <select
         id="limit"
         value={limit}
         onChange={(e) => onLimitChange(Number(e.target.value))}
-        className="appearance-none bg-secondary"
+        className="appearance-none color-tertiary rounded-lg px-5 outline-none"
       >
         <option value="5">5</option>
         <option value="10">10</option>

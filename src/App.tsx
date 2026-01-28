@@ -1,7 +1,9 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import CoinCard from "./components/coin-card/CoinCard";
 import LimitSelector from "./components/limit-selector/LimitSelector";
+import FilterInput from "./components/filter-input/FilterInput";
+import SortSelector from "./components/sort-selector/SortSelector";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -48,12 +50,14 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [limit, setLimit] = useState<number>(10);
+  const [filter, setFilter] = useState<string>("");
+  const [sortBy, setSortBy] = useState<string>("market_cap_desc");
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
         const res = await fetch(
-          `${API_URL}&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`,
+          `${API_URL}&order=$market_cap_desc&per_page=${limit}&page=1&sparkline=false`,
         );
         if (!res.ok) throw new Error("Faild to fetch data");
         const data = await res.json();
@@ -72,16 +76,56 @@ function App() {
   const onLimitChange = (value: number) => {
     setLimit(Number(value));
   };
+  const onFilterChange = (value: string) => {
+    setFilter(value);
+  };
+  const onSortChange = (value: string) => {
+    setSortBy(value);
+  };
+
+  const filteredCoins = coins
+    .filter(
+      (coin) =>
+        coin.name.toLocaleLowerCase().includes(filter) ||
+        coin.symbol.toLocaleLowerCase().includes(filter),
+    )
+    .slice()
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "market_cap_desc":
+          return b.market_cap - a.market_cap;
+        case "market_cap_asc":
+          return a.market_cap - b.market_cap;
+        case "price_desc":
+          return b.current_price - a.current_price;
+        case "price_asc":
+          return a.current_price - b.current_price;
+        case "change_desc":
+          return b.price_change_percentage_24h - a.price_change_percentage_24h;
+        case "change_asc":
+          return b.price_change_percentage_24h - a.price_change_percentage_24h;
+        default:
+          return 0;
+      }
+    });
   return (
     <>
+      <h1 className="font-bold text-4xl mb-6">Crypto Dashr</h1>
       {loading && <p>Loading</p>}
       {error && <p>{error}</p>}
-      <LimitSelector limit={limit} onLimitChange={onLimitChange} />
+
+      <div className="flex flex-col justify-between items-center mb-4 gap-4 sm:flex-row">
+        <FilterInput filter={filter} onFilterChange={onFilterChange} />
+        <LimitSelector limit={limit} onLimitChange={onLimitChange} />
+        <SortSelector sortBy={sortBy} onSortChange={onSortChange} />
+      </div>
       {!loading && !error && (
         <main className="card-container">
-          {coins.map((coin) => {
-            return <CoinCard key={coin.id} {...coin} />;
-          })}
+          {filteredCoins.length > 0 &&
+            filteredCoins.map((coin) => {
+              return <CoinCard key={coin.id} {...coin} />;
+            })}
+          {filteredCoins.length === 0 && <p>No Match Found</p>}
         </main>
       )}
     </>
