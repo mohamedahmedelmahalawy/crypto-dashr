@@ -1,4 +1,3 @@
-import { DiVim } from "react-icons/di";
 import type { CoinData } from "../../App";
 import CoinCard from "../../components/coin-card/CoinCard";
 import FilterInput from "../../components/filter-input/FilterInput";
@@ -79,12 +78,12 @@ function Home({
                   id={coin.id}
                   symbol={coin.symbol}
                   name={coin.name}
-                  image={coin.image}
+                  image={coin.image.thumb}
                   market_data={{
                     current_price: coin.current_price,
                     price_change_24h: coin.price_change_percentage_24h,
                   }}
-                  market_cap={coin.market_cap}
+                  market_cap={coin.market_cap.usd}
                 />
               );
             })}

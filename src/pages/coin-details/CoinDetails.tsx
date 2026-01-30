@@ -107,7 +107,7 @@ function CoinDetails() {
               </p>
             </div>
             <div className="bg-[#0e1117] p-4 rounded-lg col-span-full">
-              <CointChart coinId={id} />
+              <CointChart coinId={id!} />
             </div>
           </div>
 

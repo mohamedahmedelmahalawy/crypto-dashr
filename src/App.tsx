@@ -7,7 +7,7 @@ import Header from "./components/header/Header";
 import NotFound from "./pages/not-found/NotFound";
 import CoinDetails from "./pages/coin-details/CoinDetails";
 
-const API_URL = import.meta.env.VITE_COINS_API_URL;
+const API_URL: string = import.meta.env.VITE_COINS_API_URL;
 
 export interface CoinData {
   id: string;

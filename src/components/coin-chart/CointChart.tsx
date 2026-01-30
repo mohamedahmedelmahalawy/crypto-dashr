@@ -23,7 +23,7 @@ ChartJS.register(
   TimeScale,
 );
 
-const API_URL = import.meta.env.VITE_COIN_API_URL;
+const API_URL: string = import.meta.env.VITE_COIN_API_URL;
 
 interface CointChartProps {
   coinId: string;

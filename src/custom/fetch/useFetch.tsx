@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CoinData } from "../../App";
 
-const API_URL = import.meta.env.VITE_COIN_API_URL;
+const API_URL: string = import.meta.env.VITE_COIN_API_URL;
 
 function useFetch(id: string) {
   const [coin, setCoin] = useState<CoinData>();
