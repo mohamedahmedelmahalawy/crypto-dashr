@@ -27,7 +27,11 @@ function CoinDetails() {
           <Spinner />
         </div>
       )}
-      {error && <p className="text-red-400">{error}</p>}
+      {error && (
+        <p className="fixed inset-0 flex items-center justify-center text-red-400 text-5xl">
+          {error}
+        </p>
+      )}
       {!loading && !error && coin && (
         <main className="coin-card translate-0 max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-6">

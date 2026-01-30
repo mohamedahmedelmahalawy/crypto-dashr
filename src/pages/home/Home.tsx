@@ -67,7 +67,11 @@ function Home({
           <Spinner />
         </div>
       )}
-      {error && <p>{error}</p>}
+      {error && (
+        <p className="text-red-400 fixed inset-0 flex items-center justify-center text-5xl">
+          {error}
+        </p>
+      )}
       {!loading && !error && (
         <main className="card-container">
           {filteredCoins.length > 0 &&
