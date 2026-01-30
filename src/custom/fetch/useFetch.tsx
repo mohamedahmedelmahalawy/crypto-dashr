@@ -15,7 +15,8 @@ function useFetch(id: string) {
         if (!res.ok) throw new Error(`faild to fetch ${id} info.`);
         const data = await res.json();
         setCoin(data);
-        // console.log(data);
+        console.log("Coin data:", data);
+        console.log("Image data:", data.image);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown Error occured");
       } finally {

@@ -78,12 +78,12 @@ function Home({
                   id={coin.id}
                   symbol={coin.symbol}
                   name={coin.name}
-                  image={coin.image.thumb}
+                  image={coin.image as unknown as string}
                   market_data={{
                     current_price: coin.current_price,
                     price_change_24h: coin.price_change_percentage_24h,
                   }}
-                  market_cap={coin.market_cap.usd}
+                  market_cap={coin.market_cap as unknown as number}
                 />
               );
             })}
