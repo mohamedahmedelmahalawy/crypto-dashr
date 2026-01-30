@@ -5,8 +5,7 @@ export interface CoinCardProps {
   symbol: string;
   name: string;
   image: string;
-  current_price: number;
-  price_change_24h: number;
+  market_data: { current_price: number; price_change_24h: number };
   market_cap: number;
 }
 function CoinCard({
@@ -14,8 +13,7 @@ function CoinCard({
   image,
   name,
   symbol,
-  current_price: currenPrice,
-  price_change_24h: priceChange24,
+  market_data,
   market_cap: marketCap,
 }: CoinCardProps) {
   return (
@@ -34,13 +32,13 @@ function CoinCard({
             <p className="text-gray-400 text-sm">{symbol.toUpperCase()}</p>
           </div>
         </div>
-        <p>Price: ${currenPrice.toLocaleString()}</p>
+        <p>Price: ${market_data.current_price.toLocaleString()}</p>
         <p
-          className={`${priceChange24 < 0 ? "text-red-400" : "text-green-400"}`}
+          className={`${market_data.price_change_24h < 0 ? "text-red-400" : "text-green-400"}`}
         >
-          {priceChange24?.toFixed(2)}%
+          {market_data.price_change_24h?.toFixed(2)}%
         </p>
-        <p>Market Cap: {marketCap.toLocaleString()}</p>
+        <p>Market Cap: ${marketCap?.toLocaleString()}</p>
       </div>
     </Link>
   );

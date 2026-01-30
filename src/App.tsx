@@ -7,16 +7,31 @@ import Header from "./components/header/Header";
 import NotFound from "./pages/not-found/NotFound";
 import CoinDetails from "./pages/coin-details/CoinDetails";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_COINS_API_URL;
 
 export interface CoinData {
   id: string;
   symbol: string;
   name: string;
-  image: string;
+  image: { large: string; small: string; thumb: string };
+  market_data: {
+    current_price: { usd: number };
+    market_cap: { usd: number };
+    high_24h: { usd: number };
+    low_24h: { usd: number };
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    total_supply: number;
+    ath_date: { usd: Date };
+    ath: { usd: string };
+    atl_date: { usd: string };
+    atl: { usd: string };
+  };
 
+  links: { homepage: string };
+  description: { en: string };
   current_price: number;
-  market_cap: number;
+  market_cap: { usd: number };
   market_cap_rank: number;
   fully_diluted_valuation: number;
   total_volume: number;
@@ -44,7 +59,7 @@ export interface CoinData {
 
   roi: any;
 
-  last_updated: string;
+  last_updated: Date;
 }
 
 function App() {
